@@ -45,13 +45,18 @@ def load_data():
 
 def clean_data(df):
     """Perform data cleaning on the dataset."""
-    # Convert Date column. Note it might just be times or dates. We'll handle errors="coerce"
-    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+
+    # Convert Date column properly
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.date
+
     df["Ride_Distance"] = df["Ride_Distance"].astype(str).str.replace(" km", "", regex=False)
     df["Ride_Distance"] = pd.to_numeric(df["Ride_Distance"], errors="coerce")
+
     df["Booking_Value"] = pd.to_numeric(df["Booking_Value"], errors="coerce")
+
     df["Driver_Ratings"] = pd.to_numeric(df["Driver_Ratings"], errors="coerce")
     df["Customer_Rating"] = pd.to_numeric(df["Customer_Rating"], errors="coerce")
+
     return df
 
 # ----------------------------------
@@ -105,7 +110,7 @@ def render_kpi(filtered_df):
 
 def render_charts(filtered_df):
     st.subheader("Ride Trend Over Time")
-    ride_trend = filtered_df.groupby("Date")["Booking_ID"].count().reset_index()
+    ride_trend = filtered_df.dropna(subset=["Date"]).groupby("Date")["Booking_ID"].count().reset_index()
     fig_trend = px.line(
         ride_trend, x="Date", y="Booking_ID", markers=True, title="Ride Trends Over Time"
     )
