@@ -7,16 +7,13 @@ import plotly.express as px
 # PAGE CONFIG
 # ----------------------------------
 
-def setup_page():
-    st.set_page_config(
-        page_title="OLA Ride Insights Dashboard",
-        layout="wide",
-        page_icon="🚕"
-    )
+st.set_page_config(
+    page_title="OLA Ride Insights Dashboard",
+    layout="wide",
+    page_icon="🚕"
+)
 
-    st.title("OLA Ride Insights Dashboard")
-
-setup_page()
+st.title("OLA Ride Insights Dashboard")
 
 st.markdown(
     "Operational analytics dashboard for monitoring ride activity, revenue performance, cancellation trends, and customer experience."
