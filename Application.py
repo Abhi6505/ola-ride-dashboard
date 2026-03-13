@@ -20,7 +20,7 @@ st.markdown(
 st.divider()
 
 # ----------------------------------
-# LOAD DATA (CSV WITHOUT HEADERS)
+# LOAD DATA
 # ----------------------------------
 
 @st.cache_data
@@ -30,7 +30,6 @@ def load_data():
     file_path = os.path.join(base_dir, "ola_data.csv")
 
     columns = [
-        "Date",
         "Time",
         "Booking_ID",
         "Booking_Status",
@@ -63,8 +62,6 @@ df = load_data()
 # ----------------------------------
 
 def clean_data(df):
-
-    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
 
     df["Ride_Distance"] = df["Ride_Distance"].astype(str).str.replace(" km", "", regex=False)
     df["Ride_Distance"] = pd.to_numeric(df["Ride_Distance"], errors="coerce")
@@ -127,23 +124,6 @@ col3.metric("Average Ride Distance", f"{avg_distance:.2f} km")
 col4.metric("Average Customer Rating", f"{avg_rating:.2f}")
 
 st.divider()
-
-# ----------------------------------
-# RIDE TREND ANALYSIS
-# ----------------------------------
-
-st.subheader("Ride Trend Analysis")
-
-ride_trend = filtered_df.groupby("Date")["Booking_ID"].count().reset_index()
-
-fig_trend = px.line(
-    ride_trend,
-    x="Date",
-    y="Booking_ID",
-    markers=True
-)
-
-st.plotly_chart(fig_trend, use_container_width=True)
 
 # ----------------------------------
 # REVENUE & STATUS CHARTS
