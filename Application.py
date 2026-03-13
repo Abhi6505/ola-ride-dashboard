@@ -8,7 +8,7 @@ import plotly.express as px
 # ----------------------------------
 
 st.set_page_config(
-    page_title="OLA Ride Insights Dashboard",
+    page_title="🚕OLA Ride Insights Dashboard",
     layout="wide",
     page_icon="🚕"
 )
