@@ -8,12 +8,12 @@ import plotly.express as px
 # ----------------------------------
 
 st.set_page_config(
-    page_title="🚕OLA Ride Insights Dashboard",
+    page_title="OLA Ride Insights Dashboard",
     layout="wide",
     page_icon="🚕"
 )
 
-st.title("OLA Ride Insights Dashboard")
+st.title("🚕OLA Ride Insights Dashboard")
 
 st.markdown(
     "Operational analytics dashboard for monitoring ride activity, revenue performance, cancellation trends, and customer experience."
