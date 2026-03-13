@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 
 # ----------------------------------
-# PAGE CONFIGURATION
+# PAGE CONFIG
 # ----------------------------------
 
 st.set_page_config(
@@ -20,7 +20,7 @@ st.markdown(
 st.divider()
 
 # ----------------------------------
-# LOAD DATA
+# LOAD DATA (CSV WITHOUT HEADERS)
 # ----------------------------------
 
 @st.cache_data
@@ -29,7 +29,29 @@ def load_data():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(base_dir, "ola_data.csv")
 
-    df = pd.read_csv(file_path)
+    columns = [
+        "Date",
+        "Time",
+        "Booking_ID",
+        "Booking_Status",
+        "Customer_ID",
+        "Vehicle_Type",
+        "Pickup_Location",
+        "Drop_Location",
+        "V_TAT",
+        "C_TAT",
+        "Canceled_Rides_by_Customer",
+        "Canceled_Rides_by_Driver",
+        "Incomplete_Rides",
+        "Incomplete_Rides_Reason",
+        "Booking_Value",
+        "Payment_Method",
+        "Ride_Distance",
+        "Driver_Ratings",
+        "Customer_Rating"
+    ]
+
+    df = pd.read_csv(file_path, header=None, names=columns)
 
     return df
 
@@ -42,17 +64,11 @@ df = load_data()
 
 def clean_data(df):
 
-    # Convert date column
     df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
 
-    # Remove rows with invalid dates
-    df = df.dropna(subset=["Date"])
-
-    # Clean ride distance
     df["Ride_Distance"] = df["Ride_Distance"].astype(str).str.replace(" km", "", regex=False)
     df["Ride_Distance"] = pd.to_numeric(df["Ride_Distance"], errors="coerce")
 
-    # Convert numeric columns
     df["Booking_Value"] = pd.to_numeric(df["Booking_Value"], errors="coerce")
     df["Driver_Ratings"] = pd.to_numeric(df["Driver_Ratings"], errors="coerce")
     df["Customer_Rating"] = pd.to_numeric(df["Customer_Rating"], errors="coerce")
